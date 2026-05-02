@@ -1,3 +1,2 @@
-# MOA Amendment
+MOA updated to reflect capital of 300000.
 
-The capital clause has been amended to reflect Rs. 2,00,000 authorised capital.
