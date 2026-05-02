@@ -1,0 +1,1 @@
+MOA updated to 1000000 capital.

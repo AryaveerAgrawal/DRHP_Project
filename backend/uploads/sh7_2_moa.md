@@ -1,0 +1,1 @@
+MOA amended to 500000 authorised capital.

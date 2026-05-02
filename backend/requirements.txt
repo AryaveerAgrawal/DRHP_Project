@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-multipart
+transformers
+torch
+pillow
+pytesseract
+pdf2image
+pdfplumber

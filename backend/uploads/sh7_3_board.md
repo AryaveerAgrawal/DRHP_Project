@@ -1,0 +1,1 @@
+Board resolution passed for capital increase.

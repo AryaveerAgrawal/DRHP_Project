@@ -1,0 +1,1 @@
+Shareholders passed special resolution.
