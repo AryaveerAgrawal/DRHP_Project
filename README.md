@@ -4,7 +4,7 @@ I created many variations in demo dataset so it gives a better idea for varying 
 
 Input: sh7_2
 
-Output and System Design Diagram: https://drive.google.com/drive/u/0/folders/1VCWjObnjxgK1qvmeOAT3wS-d8bLluhq_
+Output and System Design Diagram(Please copy paste the link in bracket): (https://drive.google.com/drive/u/0/folders/1VCWjObnjxgK1qvmeOAT3wS-d8bLluhq_)
 
 Used ChatGPT/Claude/Gemini for helping to frame structure, but I firstly had brief idea of how to approach the problem. I wanted to use HuggingFace Transformers to do this project, so as to have a proper pipeline and later system design to analyse behind the scenes of extracting data.
 
