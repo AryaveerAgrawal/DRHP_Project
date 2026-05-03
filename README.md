@@ -2,9 +2,7 @@ Demo Dataset for respective input and table output:
 
 I created many variations in demo dataset so it gives a better idea for varying inputs.
 
-Input: sh7_2
-
-Output and System Design Diagram: https://drive.google.com/drive/u/0/folders/15688HU0W8uwf9MirpA7A-HzpCrcX2ZYz
+Input folders, Outputs, and System Design Diagram: https://drive.google.com/drive/u/0/folders/15688HU0W8uwf9MirpA7A-HzpCrcX2ZYz
 
 Used ChatGPT/Claude/Gemini for helping to frame structure, but I firstly had brief idea of how to approach the problem. I wanted to use HuggingFace Transformers to do this project, so as to have a proper pipeline and later system design to analyse behind the scenes of extracting data.
 
