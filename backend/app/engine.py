@@ -131,6 +131,7 @@ def extract_capital_table(text):
     # Company name
     company_name = "Not found"
     for pat in [
+        r'Company[:\s]+([A-Za-z\s\(\)\.&]+(?:Private Limited|Pvt\.?\s*Ltd\.?))',  # ← NEW: matches "Company: Name Pvt Ltd"
         r'(?:Company Name|Name of Company)[:\s\|*]+([A-Za-z\s\(\)\.&]+(?:Private Limited|Pvt\.?\s*Ltd\.))',
         r'##\s+([A-Za-z\s\(\)\.&]+(?:Private Limited|Pvt\.?\s*Ltd\.))',
         r'\*\*Company[^:]*:\*\*\s*([A-Za-z\s\(\)\.&]+(?:Private Limited|Pvt\.?\s*Ltd\.))',
@@ -142,7 +143,7 @@ def extract_capital_table(text):
             break
 
     # Meeting date
-    date_of_meeting = "[UNCONFIRMED]"
+    date_of_meeting = "-"
     for pat in [
         r'(?:Date of (?:Meeting|EGM|AGM|Filing)|held on)[:\s]+(\d{1,2}[thstndrd]*\s+\w+\s+\d{4})',
         r'(?:Date of (?:Meeting|EGM|AGM|Filing)|held on)[:\s]+(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})',
@@ -152,9 +153,9 @@ def extract_capital_table(text):
         if m:
             date_of_meeting = m.group(1).strip()
             break
-    if date_of_meeting == "[UNCONFIRMED]":
+    if date_of_meeting == "-":
         dates = extract_dates(text)
-        date_of_meeting = dates[0] if dates else "[UNCONFIRMED]"
+        date_of_meeting = dates[0] if dates else "-"
 
     # Meeting type
     if re.search(r'\bAGM\b|Annual General Meeting', text, re.IGNORECASE):
@@ -164,7 +165,7 @@ def extract_capital_table(text):
     elif re.search(r'\bboard meeting\b', text, re.IGNORECASE):
         meeting_type = "Board"
     else:
-        meeting_type = "[UNCONFIRMED]"
+        meeting_type = "-"
 
     # Source doc
     if re.search(r'\bSH-?7\b', text, re.IGNORECASE):
@@ -176,7 +177,7 @@ def extract_capital_table(text):
     elif re.search(r'\bboard resolution\b', text, re.IGNORECASE):
         source_doc = "Board Resolution"
     else:
-        source_doc = "[UNCONFIRMED]"
+        source_doc = "-"
 
     rows = []
 
@@ -215,7 +216,7 @@ def extract_capital_table(text):
         tm = full_matches[0]
         rows.append({
             "date":       date_of_meeting,
-            "from":       "[UNCONFIRMED]",
+            "from":       "-",
             "to":         f"Rs. {tm.group(1)} divided into {tm.group(2)} Equity Shares of Rs. {tm.group(3)} each",
             "agm_egm":    meeting_type,
             "source_doc": source_doc,
