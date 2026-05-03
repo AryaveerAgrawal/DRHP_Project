@@ -1,1 +1,1 @@
-Special resolution passed by shareholders.
+EGM for increase in Authorized Share Capital

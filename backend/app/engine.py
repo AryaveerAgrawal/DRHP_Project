@@ -188,23 +188,37 @@ def extract_capital_table(text):
     )
     full_matches = list(full_pat.finditer(text))
 
+    # ── FIXED: one row per consecutive pair, each with its own date ──
     if len(full_matches) >= 2:
-        fm, tm = full_matches[0], full_matches[-1]
-        rows.append({
-            "date": date_of_meeting,
-            "from": f"Rs. {fm.group(1)} divided into {fm.group(2)} Equity Shares of Rs. {fm.group(3)} each",
-            "to":   f"Rs. {tm.group(1)} divided into {tm.group(2)} Equity Shares of Rs. {tm.group(3)} each",
-            "agm_egm": meeting_type,
-            "source_doc": source_doc
-        })
+        all_dates = extract_dates(text)
+
+        for i in range(len(full_matches) - 1):
+            fm = full_matches[i]
+            tm = full_matches[i + 1]
+
+            # Find the date that appears just before this match in the text
+            text_before = text[:fm.start()]
+            local_dates = extract_dates(text_before)
+            event_date = local_dates[-1] if local_dates else (
+                all_dates[i] if i < len(all_dates) else date_of_meeting
+            )
+
+            rows.append({
+                "date":       event_date,
+                "from":       f"Rs. {fm.group(1)} divided into {fm.group(2)} Equity Shares of Rs. {fm.group(3)} each",
+                "to":         f"Rs. {tm.group(1)} divided into {tm.group(2)} Equity Shares of Rs. {tm.group(3)} each",
+                "agm_egm":    meeting_type,
+                "source_doc": source_doc,
+            })
+
     elif len(full_matches) == 1:
         tm = full_matches[0]
         rows.append({
-            "date": date_of_meeting,
-            "from": "[UNCONFIRMED]",
-            "to":   f"Rs. {tm.group(1)} divided into {tm.group(2)} Equity Shares of Rs. {tm.group(3)} each",
-            "agm_egm": meeting_type,
-            "source_doc": source_doc
+            "date":       date_of_meeting,
+            "from":       "[UNCONFIRMED]",
+            "to":         f"Rs. {tm.group(1)} divided into {tm.group(2)} Equity Shares of Rs. {tm.group(3)} each",
+            "agm_egm":    meeting_type,
+            "source_doc": source_doc,
         })
     else:
         # Pattern B: inline "from Rs. X to Rs. Y"
@@ -215,20 +229,25 @@ def extract_capital_table(text):
         fv_m = re.search(r'(?:Rs\.?|₹)\s*([\d,]+)\s*(?:per share|each)', text, re.IGNORECASE)
         fv = fv_m.group(1) if fv_m else "10"
         for m in inline_pat.finditer(text):
-            frm, to = m.group(1).replace(",",""), m.group(2).replace(",","")
+            frm, to = m.group(1).replace(",", ""), m.group(2).replace(",", "")
             if int(to) > int(frm):
                 rows.append({
-                    "date": date_of_meeting,
-                    "from": format_capital(frm, face_val=fv),
-                    "to":   format_capital(to,  face_val=fv),
-                    "agm_egm": meeting_type,
-                    "source_doc": source_doc
+                    "date":       date_of_meeting,
+                    "from":       format_capital(frm, face_val=fv),
+                    "to":         format_capital(to,  face_val=fv),
+                    "agm_egm":    meeting_type,
+                    "source_doc": source_doc,
                 })
                 break
 
     if not rows:
-        rows.append({"date": date_of_meeting, "from": "[UNCONFIRMED]",
-                     "to": "[UNCONFIRMED]", "agm_egm": meeting_type, "source_doc": source_doc})
+        rows.append({
+            "date":       date_of_meeting,
+            "from":       "[UNCONFIRMED]",
+            "to":         "[UNCONFIRMED]",
+            "agm_egm":    meeting_type,
+            "source_doc": source_doc,
+        })
 
     return {"company_name": company_name, "capital_table": rows}
 

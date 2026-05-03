@@ -8,11 +8,10 @@ function CapitalTable({ data }) {
       <table style={styles.table}>
         <thead>
           <tr>
-            <th style={styles.th}>Date of Shareholder’s Meeting</th>
+            <th style={styles.th}>Date of Shareholder's Meeting</th>
             <th style={styles.th}>From</th>
             <th style={styles.th}>To</th>
             <th style={styles.th}>AGM / EGM</th>
-            <th style={styles.th}>Source Document</th>
           </tr>
         </thead>
 
@@ -23,7 +22,6 @@ function CapitalTable({ data }) {
               <td style={styles.td}>{row.from}</td>
               <td style={styles.td}>{row.to}</td>
               <td style={styles.td}>{row.agm_egm}</td>
-              <td style={styles.td}>{row.source_doc}</td>
             </tr>
           ))}
         </tbody>

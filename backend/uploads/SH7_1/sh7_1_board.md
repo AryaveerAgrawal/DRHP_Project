@@ -1,1 +1,1 @@
-Board Resolution approving increase from 150000 to 300000.
+Board approved increase from 500000 to 800000.

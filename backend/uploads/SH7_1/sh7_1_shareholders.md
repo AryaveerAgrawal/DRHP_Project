@@ -1,1 +1,1 @@
-Shareholders approved capital increase via ordinary resolution.
+EGM approved and capital increased.
